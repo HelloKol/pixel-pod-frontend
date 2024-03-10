@@ -112,20 +112,16 @@ export default function Page({ page, article }: props): JSX.Element | null {
 
   return (
     <main>
-      <Section className="bg-[#191919] h-[850px]">
+      <Section withPadding={false} className="pt-[180px]">
         <Container>
-          <Grid>
-            <div className="z-10 relative lg:col-end-8 xl:col-start-1 xl:col-end-5 text-white col-span-full">
-              <h1 className="uppercase text-7xl">{title}</h1>
-              <article className="text-2xl mt-4">
-                <PortableText value={body} />
-              </article>
-            </div>
-          </Grid>
+          <h1 className="text-9xl text-center">{title}</h1>
+          <article className="text-2xl mt-4">
+            <PortableText value={body} />
+          </article>
         </Container>
       </Section>
 
-      <Section className="py-0 mt-[-321px]">
+      <Section withPadding={false} className="pt-[100px]">
         <Container>
           <Grid>{renderBlog()}</Grid>
         </Container>

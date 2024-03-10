@@ -36,7 +36,7 @@ export default function Page({ page }: props): JSX.Element | null {
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(path);
-    const newToast = `Text is copied ${toasts.length + 1}`;
+    const newToast = `Link is copied`;
     setToasts((prevToasts) => [...prevToasts, newToast]);
   };
 

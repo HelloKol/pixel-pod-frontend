@@ -40,7 +40,7 @@ const ToastMessage = ({ message, index, removeToast }) => {
           stroke="currentColor"
           strokeLinecap="round"
           strokeLinejoin="round"
-          strokeWidth="2"
+          strokeWidth="1"
           d="M6 18 18 6m0 12L6 6"
         />
       </svg>

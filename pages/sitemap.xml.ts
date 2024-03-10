@@ -1,41 +1,27 @@
 import { NextApiResponse } from "next";
 
-const EXTERNAL_DATA_URL = "https://jsonplaceholder.typicode.com/posts";
-
-function generateSiteMap(posts: any) {
+function generateSiteMap() {
   return `<?xml version="1.0" encoding="UTF-8"?>
-   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-     <url>
-       <loc>https://jsonplaceholder.typicode.com</loc>
-     </url>
-     <url>
-       <loc>https://jsonplaceholder.typicode.com/guide</loc>
-     </url>
-     ${posts
-       .map(({ id }: { id: number }) => {
-         return `
-       <url>
-           <loc>${`${EXTERNAL_DATA_URL}/${id}`}</loc>
-       </url>
-     `;
-       })
-       .join("")}
-   </urlset>
- `;
+    <sitemapindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd"
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    >
+      <sitemap>
+        <loc>${process.env.NEXT_PUBLIC_BASE_URL}/sitemap/home.xml</loc>
+        <loc>${process.env.NEXT_PUBLIC_BASE_URL}/sitemap/article-index.xml</loc>
+        <loc>${process.env.NEXT_PUBLIC_BASE_URL}/sitemap/article-show.xml</loc>
+      </sitemap>
+    </sitemapindex>
+  `;
 }
 
 function SiteMap() {}
 
 export async function getServerSideProps({ res }: { res: NextApiResponse }) {
-  // We make an API call to gather the URLs for our site
-  const request = await fetch(EXTERNAL_DATA_URL);
-  const posts = await request.json();
-
-  // We generate the XML sitemap with the posts data
-  const sitemap = generateSiteMap(posts);
+  // We generate the XML sitemap with the records data
+  const sitemap = generateSiteMap();
 
   res.setHeader("Content-Type", "text/xml");
-  // we send the XML to the browser
   res.write(sitemap);
   res.end();
 
