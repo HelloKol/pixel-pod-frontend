@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useRouter } from "next/router";
 import settings from "../../data/settings.json";
 
 interface Props {
@@ -6,7 +7,7 @@ interface Props {
 }
 
 const Seo = ({ seo }: Props) => {
-  console.log(seo, settings);
+  const router = useRouter();
   const {
     title,
     siteName,
@@ -16,6 +17,7 @@ const Seo = ({ seo }: Props) => {
     image,
     canonicalUrl,
   } = settings.seoSettings;
+  const path = process.env.NEXT_PUBLIC_BASE_URL + router.asPath;
 
   return (
     <Head>
@@ -30,8 +32,8 @@ const Seo = ({ seo }: Props) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
       {/* Description and Keywords Meta Tags */}
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
+      <meta name="description" content={seo?.description || description} />
+      <meta name="keywords" content={seo?.keywords || keywords} />
 
       {/* Canonical Link Tag */}
       <link rel="canonical" href={canonicalUrl} />
@@ -45,15 +47,15 @@ const Seo = ({ seo }: Props) => {
 
       {/* Content Open Graph Tags */}
       <meta property="og:title" content={seo?.title || title} />
-      <meta property="og:description" content={seo?.body || description} />
+      <meta
+        property="og:description"
+        content={seo?.description || description}
+      />
       <meta
         property="og:image"
         content={seo?.image?.asset?.url || image?.asset?.url}
       />
-      <meta
-        property="og:url"
-        content="http://localhost:3000/article/typescript"
-      />
+      <meta property="og:url" content={path} />
 
       {/*<!-- Google / Search Engine Tags -->*/}
       <meta property="name" content={seo?.title || title} />

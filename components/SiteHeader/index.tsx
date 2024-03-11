@@ -10,8 +10,9 @@ export default function SiteHeader({}: {}) {
       headerNavigation &&
       headerNavigation.map((navigation) => {
         const { _key, title, content } = navigation;
+
         return (
-          <Link key={_key} href={content.slug} className="text-lg px-5">
+          <Link key={_key} href={`/${content.slug}`} className="text-lg px-5">
             {title}
           </Link>
         );
@@ -503,7 +504,6 @@ export default function SiteHeader({}: {}) {
         <Container>
           <ul className="flex items-center justify-between relative w-full max-w-[inherit]">
             <li>{siteLogo}</li>
-
             <li className="flex items-center">{renderNavigation()}</li>
           </ul>
         </Container>
