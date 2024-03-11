@@ -50,7 +50,7 @@ export default function BreadCrumb({}) {
       {breadcrumbs.map((breadcrumb, index) => (
         <span key={index} className="capitalize">
           <Link
-            href={breadcrumb.route}
+            href={`/${breadcrumb.route}`}
             className="flex text-xl hover:text-gray-600 items-center gap-2"
           >
             <span>{breadcrumb.text}</span>
