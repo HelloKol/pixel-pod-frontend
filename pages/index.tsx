@@ -29,12 +29,11 @@ export default function Page({ page }: props): JSX.Element | null {
           <div className="blog-item-image h-[400px] rounded-lg overflow-hidden">
             <ImageTag src={coverImage.asset.url} />
           </div>
-
-          <h2 className="text-3xl mt-4">{title}</h2>
-          <div className="flex items-center gap-2 text-xl mt-4">
-            <p>{format(date, "d MMMM yyyy")}</p>
-            <div className="h-[5px] w-[5px] bg-black rounded-full" />
-            <p>{minuteRead} mins read</p>
+          <h2 className="text-4xl lg:text-5xl mt-4">{title}</h2>
+          <div className="flex items-center gap-2 text-xl mt-2">
+            <p className="text-md">{format(date, "d MMMM yyyy")}</p>
+            <div className="h-[5px] w-[5px] bg-white rounded-full" />
+            <p className="text-md">{minuteRead} mins read</p>
           </div>
         </Link>
       );
@@ -59,14 +58,13 @@ export default function Page({ page }: props): JSX.Element | null {
               className="block lg:py-14 lg:px-24 p-10 bg-[#191919] text-white rounded-lg hover:outline hover:outline-2 hover:outline-offset-2 outline-blue-500 transition-outline duration-0 hover:duration-300 ease-in-out"
             >
               <p>Featured Article</p>
-
-              <div className="mt-10 relative lg:flex gap-44 justify-between">
+              <div className="mt-5 lg:mt-10 relative lg:flex gap-44 justify-between">
                 <div>
-                  <h2 className="text-5xl">{title}</h2>
-                  <div className="flex items-center gap-2 text-xl mt-4">
-                    <p>{format(date, "d MMMM yyyy")}</p>
+                  <h2 className="text-4xl lg:text-5xl">{title}</h2>
+                  <div className="flex items-center gap-2 text-xl mt-2">
+                    <p className="text-md">{format(date, "d MMMM yyyy")}</p>
                     <div className="h-[5px] w-[5px] bg-white rounded-full" />
-                    <p>{minuteRead} mins read</p>
+                    <p className="text-md">{minuteRead} mins read</p>
                   </div>
 
                   <div className="flex absolute items-center bottom-0 gap-4 text-xl">
@@ -89,7 +87,7 @@ export default function Page({ page }: props): JSX.Element | null {
                   </div>
                 </div>
 
-                <div className="h-[500px] w-full lg:w-[500px] rounded-xl overflow-hidden">
+                <div className="mt-10 h-[300px] lg:h-[500px] w-full lg:w-[500px] rounded-xl overflow-hidden">
                   <ImageTag src={coverImage.asset.url} />
                 </div>
               </div>

@@ -14,8 +14,9 @@ export default function SiteFooter({}: {}) {
         const isEmailLink = _type === "emailLink";
 
         return (
-          <li>
+          <li key={_key}>
             <Link
+              // @ts-expect-error
               href={
                 isExternalLink ? url : isEmailLink ? `mailto:${email}` : "/"
               }

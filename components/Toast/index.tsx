@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
-const Toast = ({ toasts, removeToast }) => {
+const Toast = ({ toasts, removeToast }: any) => {
   return (
     <div className="fixed z-50 top-24 left-1/2 transform -translate-x-1/2 w-[90%] w-[700px] lg:w-[800px]">
-      {toasts.map((toast, index) => (
+      {toasts.map((toast: any, index: any) => (
         <ToastMessage
           key={index}
           message={toast}
@@ -15,7 +15,7 @@ const Toast = ({ toasts, removeToast }) => {
   );
 };
 
-const ToastMessage = ({ message, index, removeToast }) => {
+const ToastMessage = ({ message, index, removeToast }: any) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       removeToast(index);

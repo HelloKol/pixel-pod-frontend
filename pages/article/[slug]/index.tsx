@@ -26,20 +26,23 @@ interface props {
 }
 
 export default function Page({ page }: props): JSX.Element | null {
+  const router = useRouter();
+  const [toasts, setToasts] = useState([]);
+
   if (!page) return null;
   const { title, excerpt, body, minuteRead, date, coverImage, author } = page;
   const { name, picture } = author;
 
-  const router = useRouter();
   const path = process.env.NEXT_PUBLIC_BASE_URL + router.asPath;
-  const [toasts, setToasts] = useState([]);
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(path);
     const newToast = `Link is copied`;
+    // @ts-expect-error
     setToasts((prevToasts) => [...prevToasts, newToast]);
   };
 
+  // @ts-expect-error
   const removeToast = (indexToRemove) => {
     const updatedToasts = toasts.filter((_, index) => index !== indexToRemove);
     setToasts(updatedToasts);
