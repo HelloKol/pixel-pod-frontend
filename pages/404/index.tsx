@@ -22,7 +22,9 @@ export default function Page({ page }: props): JSX.Element | null {
               className={`relative items-end after:content-[''] after:bg-black after:h-[390px] after:w-[1.5px] after:absolute after:top-1/2 after:transform after:-translate-y-1/2`}
             >
               <h1 className="text-7xl col-start-3 col-end-8">404 Not Found</h1>
-              <p className="col-start-3 col-end-8">Looks like you're lost</p>
+              <p className="col-start-3 col-end-8">
+                Looks like you&apos;re lost
+              </p>
 
               <Link
                 href="/"
