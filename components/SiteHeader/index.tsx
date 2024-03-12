@@ -499,7 +499,7 @@ export default function SiteHeader({}: {}) {
   );
 
   return (
-    <header className="bg-[#191919] text-white z-20 fixed top-0 left-0 right-0">
+    <header className="bg-white text-black z-20 fixed top-0 left-0 right-0">
       <nav className="py-6">
         <Container>
           <ul className="flex items-center justify-between relative w-full max-w-[inherit]">
