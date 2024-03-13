@@ -1,4 +1,5 @@
 import { useRouter } from "next/router";
+import { NextSeo } from "next-seo";
 import {
   Grid,
   Section,
@@ -58,8 +59,41 @@ export default function Page({ page }: props): JSX.Element | null {
 
   return (
     <>
-      <Seo seo={seoPage} />
-
+      {/* <Seo seo={seoPage} /> */}
+      <NextSeo
+        title={title}
+        description={excerpt}
+        canonical={path}
+        openGraph={{
+          url: path,
+          title: title,
+          description: excerpt,
+          images: [
+            {
+              url: coverImage.asset.url,
+              width: 800,
+              height: 600,
+              alt: "Og Image Alt",
+              type: "image/jpeg",
+            },
+            {
+              url: coverImage.asset.url,
+              width: 900,
+              height: 800,
+              alt: "Og Image Alt Second",
+              type: "image/jpeg",
+            },
+            { url: coverImage.asset.url },
+            { url: coverImage.asset.url },
+          ],
+          siteName: "Pixel Pod",
+        }}
+        twitter={{
+          handle: "@handle",
+          site: "@site",
+          cardType: "summary_large_image",
+        }}
+      />
       <main>
         <Section>
           <Container>
