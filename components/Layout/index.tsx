@@ -1,4 +1,3 @@
-import { GoogleTagManager } from "@next/third-parties/google";
 import { SiteHeader, SiteFooter } from "@/components";
 
 export default function Layout({ children }: any) {
@@ -7,7 +6,6 @@ export default function Layout({ children }: any) {
       <SiteHeader />
       {children}
       <SiteFooter />
-      <GoogleTagManager gtmId="GTM-MFR4X6H6" />
     </>
   );
 }

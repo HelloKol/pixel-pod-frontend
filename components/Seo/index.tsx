@@ -23,8 +23,8 @@ const Seo = ({ seo }: Props) => {
     <Head>
       <title>
         {siteNamePosition === "after"
-          ? `${seo?.title || title} | ${siteName}`
-          : `${siteName} | ${seo?.title || title}`}
+          ? `${seo?.title || `asdasdasdasd`} | ${siteName}`
+          : `${siteName} | ${seo?.title || `asdasdasdasd`}`}
       </title>
 
       {/* Basic Meta Tags */}
@@ -36,7 +36,7 @@ const Seo = ({ seo }: Props) => {
       <meta name="keywords" content={seo?.keywords || keywords} />
 
       {/* Canonical Link Tag */}
-      <link rel="canonical" href={canonicalUrl} />
+      <link rel="canonical" href={path} />
 
       {/* Site Open Graph Tags */}
       <meta content="en_GB" property="og:locale" />
@@ -46,7 +46,7 @@ const Seo = ({ seo }: Props) => {
       <meta content={siteName} name="site_name" />
 
       {/* Content Open Graph Tags */}
-      <meta property="og:title" content={seo?.title || title} />
+      <meta property="og:title" content={seo?.title || `asdasdasdasd`} />
       <meta
         property="og:description"
         content={seo?.description || description}
@@ -58,7 +58,7 @@ const Seo = ({ seo }: Props) => {
       <meta property="og:url" content={path} />
 
       {/*<!-- Google / Search Engine Tags -->*/}
-      <meta property="name" content={seo?.title || title} />
+      <meta property="name" content={seo?.title || `asdasdasdasd`} />
       <meta property="description" content={seo?.description || description} />
       <meta
         property="image"
@@ -66,7 +66,7 @@ const Seo = ({ seo }: Props) => {
       />
 
       {/*<!-- Twitter Meta Tags -->*/}
-      <meta name="twitter:title" content={seo?.title || title} />
+      <meta name="twitter:title" content={seo?.title || `asdasdasdasd`} />
       <meta
         name="twitter:description"
         content={seo?.description || description}
