@@ -16,13 +16,16 @@ import groq from "groq";
 import { format } from "date-fns";
 import { PortableText } from "@portabletext/react";
 
-async function generateMetadata({
-  params,
-  parent,
-}: {
-  params: { slug: string };
-  parent: ResolvingMetadata;
-}): Promise<Metadata> {
+export async function generateMetadata(
+  {
+    params,
+    searchParams,
+  }: {
+    params: { slug: string };
+    searchParams: URLSearchParams;
+  },
+  parent: ResolvingMetadata
+) {
   const { slug } = params;
 
   const article = await sanityClient.fetch(
@@ -78,7 +81,7 @@ async function generateMetadata({
   };
 }
 
-async function generateStaticParams() {
+export async function generateStaticParams() {
   const articles = await sanityClient.fetch(
     groq`*[_type == "post" && !(_id in path('drafts.**'))]{slug}`
   );
@@ -232,61 +235,3 @@ export default async function Page({ params }: { params: { slug: string } }) {
     </>
   );
 }
-
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   const articles = await sanityClient.fetch(
-//     groq`*[_type == "post" && !(_id in path('drafts.**'))]{slug}`
-//   );
-
-//   const paths = articles.map((article: any) => ({
-//     params: { slug: article.slug.current },
-//   }));
-
-//   return {
-//     paths,
-//     fallback: false, // Set to true if you want to use Incremental Static Regeneration
-//   };
-// };
-
-// export const getStaticProps: GetStaticProps = async ({ params }: any) => {
-//   const { slug } = params;
-//   const page = await sanityClient.fetch(
-//     groq`*[_type == "post" && slug.current == $slug && !(_id in path('drafts.**'))][0]{
-//       ...,
-//       coverImage {
-//         _type,
-//         asset -> {
-//           _id,
-//           url
-//         }
-//       },
-//       author -> {
-//         ...,
-//         picture {
-//           _type,
-//           asset->{
-//             _id,
-//             url
-//           }
-//         },
-//       },
-//       seoPage {
-//         ...,
-//         image {
-//           _type,
-//           asset -> {
-//             _id,
-//             url
-//           }
-//         },
-//       }
-//     }`,
-//     { slug }
-//   );
-
-//   return {
-//     props: {
-//       page,
-//     },
-//   };
-// };
