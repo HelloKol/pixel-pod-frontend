@@ -7,11 +7,6 @@ import { GetStaticPropsResult, Metadata } from "next/types";
 import { PortableText } from "@portabletext/react";
 import { format } from "date-fns";
 
-interface props {
-  page: any;
-  article: any;
-}
-
 export const metadata: Metadata = {
   title: "React App..",
   description: "Web site created with Next.js.",
@@ -46,7 +41,7 @@ async function fetchPosts() {
   return { page, article };
 }
 
-export default async function Page({}: props) {
+export default async function Page() {
   const pageData = await fetchPosts();
 
   if (!pageData) return null;

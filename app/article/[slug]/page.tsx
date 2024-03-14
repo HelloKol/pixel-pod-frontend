@@ -16,11 +16,7 @@ import groq from "groq";
 import { format } from "date-fns";
 import { PortableText } from "@portabletext/react";
 
-interface props {
-  page: any;
-}
-
-export async function generateMetadata({
+async function generateMetadata({
   params,
   parent,
 }: {
@@ -82,7 +78,7 @@ export async function generateMetadata({
   };
 }
 
-export async function generateStaticParams() {
+async function generateStaticParams() {
   const articles = await sanityClient.fetch(
     groq`*[_type == "post" && !(_id in path('drafts.**'))]{slug}`
   );
@@ -94,7 +90,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export async function fetchPosts(slug: string) {
+async function fetchPosts(slug: string) {
   const article = await sanityClient.fetch(
     groq`*[_type == "post" && slug.current == $slug && !(_id in path('drafts.**'))][0]{
       ...,
