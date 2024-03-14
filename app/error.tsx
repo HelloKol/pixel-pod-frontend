@@ -1,19 +1,29 @@
+"use client";
 import Link from "next/link";
 import { Container, Grid, Section, Seo } from "@/components";
 import { sanityClient } from "@/utils";
 import { GetStaticPropsResult } from "next/types";
 import groq from "groq";
+import { useEffect } from "react";
 
 interface props {
   page: any;
 }
 
-export default function Page({ page }: props): JSX.Element | null {
-  if (!page) return null;
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    console.error(error);
+  }, [error]);
 
   return (
     <>
-      <Seo seo={""} />
+      {/* <Seo seo={""} /> */}
 
       <main>
         <Section withPadding={false} className="pt-[350px] min-h-screen">

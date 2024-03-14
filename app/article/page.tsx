@@ -3,7 +3,7 @@ import { Grid, Section, Container, ImageTag } from "@/components";
 import Link from "next/link";
 import { sanityClient } from "@/utils";
 import groq from "groq";
-import { GetStaticPropsResult } from "next/types";
+import { GetStaticPropsResult, Metadata } from "next/types";
 import { PortableText } from "@portabletext/react";
 import { format } from "date-fns";
 
@@ -12,8 +12,45 @@ interface props {
   article: any;
 }
 
-export default function Page({ page, article }: props): JSX.Element | null {
-  if (!page) return null;
+export const metadata: Metadata = {
+  title: "React App..",
+  description: "Web site created with Next.js.",
+};
+
+async function fetchPosts() {
+  const page: any = await sanityClient.fetch(
+    groq`*[_type == "postIndex" && !(_id in path('drafts.**'))][0] {
+      title,
+      body
+    }
+    `
+  );
+
+  const article: any = await sanityClient.fetch(
+    groq`*[_type == "post" && !(_id in path('drafts.**'))] {
+            ...,
+            author -> {
+              ...
+            },
+            coverImage {
+              _type,
+              asset -> {
+                _id,
+                url
+              }
+            },
+          }
+        `
+  );
+
+  return { page, article };
+}
+
+export default async function Page({}: props) {
+  const pageData = await fetchPosts();
+
+  if (!pageData) return null;
+  const { page, article } = pageData;
   const { title, body } = page;
 
   const renderBlog = () => {
@@ -130,48 +167,48 @@ export default function Page({ page, article }: props): JSX.Element | null {
   );
 }
 
-export async function getStaticProps(): Promise<GetStaticPropsResult<props>> {
-  try {
-    const page: any = await sanityClient.fetch(
-      groq`*[_type == "postIndex" && !(_id in path('drafts.**'))][0] {
-        title,
-        body
-      }
-      `
-    );
+// export async function getStaticProps(): Promise<GetStaticPropsResult<props>> {
+//   try {
+//     const page: any = await sanityClient.fetch(
+//       groq`*[_type == "postIndex" && !(_id in path('drafts.**'))][0] {
+//         title,
+//         body
+//       }
+//       `
+//     );
 
-    const article: any = await sanityClient.fetch(
-      groq`*[_type == "post" && !(_id in path('drafts.**'))] {
-        ...,
-        author -> {
-          ...
-        },
-        coverImage {
-          _type,
-          asset -> {
-            _id,
-            url
-          }
-        },
-      }
-    `
-    );
+//     const article: any = await sanityClient.fetch(
+//       groq`*[_type == "post" && !(_id in path('drafts.**'))] {
+//         ...,
+//         author -> {
+//           ...
+//         },
+//         coverImage {
+//           _type,
+//           asset -> {
+//             _id,
+//             url
+//           }
+//         },
+//       }
+//     `
+//     );
 
-    if (!page)
-      return {
-        notFound: true,
-      };
+//     if (!page)
+//       return {
+//         notFound: true,
+//       };
 
-    return {
-      props: {
-        page,
-        article,
-      },
-      revalidate: 30,
-    };
-  } catch (err) {
-    return {
-      notFound: true,
-    };
-  }
-}
+//     return {
+//       props: {
+//         page,
+//         article,
+//       },
+//       revalidate: 30,
+//     };
+//   } catch (err) {
+//     return {
+//       notFound: true,
+//     };
+//   }
+// }

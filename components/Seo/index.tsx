@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 import settings from "../../data/settings.json";
 
 interface Props {
@@ -7,6 +7,7 @@ interface Props {
 }
 
 const Seo = ({ seo }: Props) => {
+  return null;
   const router = useRouter();
   const {
     title,

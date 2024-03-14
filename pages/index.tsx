@@ -41,7 +41,7 @@ export default function Page({ page }: props): JSX.Element | null {
 
   return (
     <>
-      <Seo seo={""} />
+      {/* <Seo seo={""} /> */}
       <main>
         <Section withPadding={false} className="pt-[180px]">
           <Container>

@@ -7,4 +7,5 @@ export { default as SiteHeader } from "./SiteHeader";
 export { default as Seo } from "./Seo";
 export { default as Toast } from "./Toast";
 export { default as SiteFooter } from "./SiteFooter";
+export { default as SocialShare } from "./SocialShare";
 export { default as BreadCrumb } from "./BreadCrumb";
