@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: "Web site created with Next.js.",
 };
 
-async function fetchPosts() {
+async function fetchPage() {
   const page: any = await sanityClient.fetch(
     groq`*[_type == "postIndex" && !(_id in path('drafts.**'))][0] {
       title,
@@ -42,7 +42,7 @@ async function fetchPosts() {
 }
 
 export default async function Page() {
-  const pageData = await fetchPosts();
+  const pageData = await fetchPage();
 
   if (!pageData) return null;
   const { page, article } = pageData;

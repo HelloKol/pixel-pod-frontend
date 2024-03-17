@@ -1,8 +1,9 @@
+"use client";
 import Link from "next/link";
 import { Container } from "@/components";
 import settings from "../../data/settings.json";
 
-export default function SiteHeader({}: {}) {
+export default function SiteHeader() {
   const { headerNavigation } = settings;
 
   const renderNavigation = () => {
@@ -12,9 +13,11 @@ export default function SiteHeader({}: {}) {
         const { _key, title, content } = navigation;
 
         return (
-          <Link key={_key} href={`/${content.slug}`} className="text-lg px-5">
-            {title}
-          </Link>
+          <li key={_key}>
+            <Link key={_key} href={`/${content.slug}`} className="text-lg px-5">
+              {title}
+            </Link>
+          </li>
         );
       })
     );
@@ -499,15 +502,15 @@ export default function SiteHeader({}: {}) {
   );
 
   return (
-    <header className="bg-white text-black z-20 fixed top-0 left-0 right-0">
-      <nav className="py-6">
-        <Container>
-          <ul className="flex items-center justify-between relative w-full max-w-[inherit]">
-            <li>{siteLogo}</li>
-            <li className="flex items-center">{renderNavigation()}</li>
+    <header className="text-black z-20 fixed top-0 left-0 right-0">
+      <Container>
+        <nav className="py-6">
+          <ul className="flex items-center justify-end relative w-full max-w-[inherit]">
+            <li className="mr-auto">{siteLogo}</li>
+            {renderNavigation()}
           </ul>
-        </Container>
-      </nav>
+        </nav>
+      </Container>
     </header>
   );
 }

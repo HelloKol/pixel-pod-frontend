@@ -1,8 +1,9 @@
-import { Container } from "@/components";
+"use client";
 import Link from "next/link";
+import { Container } from "@/components";
 import settings from "../../data/settings.json";
 
-export default function SiteFooter({}: {}) {
+export default function SiteFooter() {
   const { credit, footerNavigation } = settings;
 
   const renderNavigation = () => {

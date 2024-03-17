@@ -1,4 +1,4 @@
-import { NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 
 function generateSiteMap() {
   return `<?xml version="1.0" encoding="UTF-8"?>
@@ -15,19 +15,19 @@ function generateSiteMap() {
   `;
 }
 
-function SiteMap() {}
-
-export async function getServerSideProps({ res }: { res: NextApiResponse }) {
+export async function getStaticProps() {
   // We generate the XML sitemap with the records data
   const sitemap = generateSiteMap();
 
-  res.setHeader("Content-Type", "text/xml");
-  res.write(sitemap);
-  res.end();
-
   return {
-    props: {},
+    props: {
+      sitemap,
+    },
   };
 }
 
-export default SiteMap;
+function Sitemap({ sitemap }: { sitemap: string }) {
+  return sitemap;
+}
+
+export default Sitemap;
