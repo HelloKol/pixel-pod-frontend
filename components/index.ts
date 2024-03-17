@@ -1,3 +1,4 @@
+export { default as CopyLink } from "./CopyLink";
 export { default as Grid } from "./Grid";
 export { default as Container } from "./Container";
 export { default as Section } from "./Section";

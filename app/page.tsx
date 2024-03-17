@@ -97,29 +97,35 @@ export default async function Page() {
       <Section className="pt-0">
         <Link href={`/article/${slug.current}`} className="block">
           <Container className="flex min-h-screen">
-            <Grid withColumnGap={false}>
-              <div className="col-span-12 sm:col-span-6 bg-[#D93101] left-side">
-                <div className="flex items-center h-full">
+            <Grid
+              withColumnGap={false}
+              withRowGap={false}
+              className="md:w-screen"
+            >
+              <div className="left-side col-span-12 md:col-span-6 bg-[#D93101]">
+                <div className="flex items-center h-[75vh] md:h-full md:pr-6">
                   <div className="m-auto h-[300px] lg:h-[500px] w-full lg:w-[500px] overflow-hidden">
                     <ImageTag src={coverImage.asset.url} />
                   </div>
                 </div>
               </div>
 
-              <div className="col-span-12 sm:col-span-6 bg-[#DD6044] right-side">
-                <div className="flex h-full flex-col p-8">
-                  <div className="mt-auto">
-                    <div className="flex items-center gap-2 text-xl mt-2">
-                      <p className="text-sm uppercase">Featured Article</p>
-                      <div className="h-[5px] w-[5px] bg-black rounded-full" />
-                      <p className="text-sm uppercase">
-                        {minuteRead} mins read
-                      </p>
-                    </div>
-                    <h2 className="text-4xl lg:text-7xl uppercase">{title}</h2>
+              <div className="right-side col-span-12 md:col-span-6 bg-[#DD6044]">
+                <div className="flex flex-col justify-center h-full py-4 md:py-0 md:pl-6 md:pb-6 relative">
+                  <div className="flex items-center gap-2 text-xl mt-2">
+                    <p className="text-sm uppercase font-semibold">
+                      Featured Article
+                    </p>
+                    <div className="h-[5px] w-[5px] bg-black rounded-full" />
+                    <p className="text-sm uppercase font-semibold">
+                      {minuteRead} mins read
+                    </p>
                   </div>
+                  <h2 className="text-4xl md:text-6xl lg:text-7xl uppercase mt-2 break-all">
+                    {title}
+                  </h2>
 
-                  <article className="mt-auto text-3xl">
+                  <article className="font-light text-xl md:text-3xl pl-6 pt-2 md:absolute md:bottom-6">
                     <p>{excerpt}</p>
                   </article>
                 </div>
