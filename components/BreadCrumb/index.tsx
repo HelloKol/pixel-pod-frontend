@@ -1,12 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 const useBreadcrumbs = () => {
-  const router = useRouter();
-  const pathSegments = router.asPath
-    .split("/")
-    .filter((segment) => segment !== "");
+  const pathname = usePathname();
+  const pathSegments = pathname.split("/").filter((segment) => segment !== "");
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const route = `/${pathSegments.slice(0, index + 1).join("/")}`;
@@ -19,9 +17,7 @@ const useBreadcrumbs = () => {
   return breadcrumbs;
 };
 
-export default function BreadCrumb({}) {
-  return null;
-
+export default function BreadCrumb() {
   const breadcrumbs = useBreadcrumbs();
 
   return (

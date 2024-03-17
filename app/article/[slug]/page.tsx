@@ -148,54 +148,51 @@ export default async function Page({ params }: { params: { slug: string } }) {
   const { name, picture } = author;
 
   return (
-    <>
-      <main>
-        <Section>
-          <Container>
-            <Grid>
-              <div className="col-span-full">
-                <BreadCrumb />
+    <main>
+      <Section>
+        <Container>
+          <Grid>
+            <div className="col-span-full">
+              <BreadCrumb />
+            </div>
+
+            <h1 className="col-span-full md:col-start-2 md:col-end-13 text-4xl md:text-6xl lg:text-7xl mt-10 md:mt-14 uppercase">
+              {title}
+            </h1>
+
+            <div className="mt-2 col-span-full md:col-start-2 md:col-end-13 flex gap-4 items-center">
+              <div className="w-10 h-10 md:w-14 md:h-14 rounded-full overflow-hidden">
+                <ImageTag src={picture.asset.url} />
               </div>
-
-              <h1 className="col-start-2 col-end-5 text-4xl md:text-6xl lg:text-7xl mt-14 uppercase">
-                {title}
-              </h1>
-
-              <div className="mt-2 col-start-2 col-end-5 flex gap-4 items-center">
-                <div className="w-14 h-14 rounded-full overflow-hidden">
-                  <ImageTag src={picture.asset.url} />
-                </div>
-
-                <div>
-                  <p>{name}</p>
-                  <div className="flex items-center gap-2">
-                    <p>{format(date, "d MMMM yyyy")}</p>
-                    <div className="h-[5px] w-[5px] bg-black rounded-full" />
-                    <p>{minuteRead} mins read</p>
-                  </div>
+              <div className="text-sm uppercase font-semibold">
+                <p>{name}</p>
+                <div className="flex items-center gap-2">
+                  <p>{format(date, "d MMMM yyyy")}</p>
+                  <div className="h-[5px] w-[5px] bg-black rounded-full" />
+                  <p>{minuteRead} mins read</p>
                 </div>
               </div>
+            </div>
 
-              <div className="col-span-full mt-4 h-[700px] w-full">
-                <ImageTag src={coverImage.asset.url} />
-              </div>
+            <div className="col-span-full mt-4 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[700px] xl:h-[750px] w-full">
+              <ImageTag src={coverImage.asset.url} />
+            </div>
 
-              <div className="mt-4 items-center gap-2 justify-end flex col-start-2 col-end-12">
-                <CopyLink slug={slug} />
-                <SocialShare seo={seoPage} />
-              </div>
+            <div className="mt-4 items-center gap-2 justify-end flex col-span-full">
+              <CopyLink slug={slug} />
+              <SocialShare seo={seoPage} />
+            </div>
 
-              <article className="text-2xl mt-4 col-start-4 col-end-10">
-                <p>{excerpt}</p>
-              </article>
+            <article className="text-xl mt-4 col-start-2 col-end-12 lg:col-start-4 lg:col-end-10">
+              <p>{excerpt}</p>
+            </article>
 
-              <article className="text-2xl mt-4 col-start-4 col-end-10">
-                <PortableText value={body} />
-              </article>
-            </Grid>
-          </Container>
-        </Section>
-      </main>
-    </>
+            <article className="text-xl mt-4 col-start-2 col-end-12 lg:col-start-4 lg:col-end-10">
+              <PortableText value={body} />
+            </article>
+          </Grid>
+        </Container>
+      </Section>
+    </main>
   );
 }

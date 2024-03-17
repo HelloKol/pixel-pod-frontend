@@ -1,13 +1,11 @@
 import Link from "next/link";
-import { Container, Grid, ImageTag, Section, Seo } from "@/components";
+import { Container, Grid, ImageTag, Section } from "@/components";
 import { sanityClient } from "@/utils";
-import { GetStaticPropsResult } from "next/types";
 import groq from "groq";
 import { format } from "date-fns";
-import { PortableText } from "@portabletext/react";
 
 async function fetchPage() {
-  const page: any = await sanityClient.fetch(
+  const home: any = await sanityClient.fetch(
     groq`*[_type == "home" && !(_id in path('drafts.**'))][0] {
             ...,
             featuredArticle -> {
@@ -54,17 +52,15 @@ async function fetchPage() {
         `
   );
 
-  return { page };
+  return { home };
 }
 
 export default async function Page() {
-  const pageData = await fetchPage();
+  const page = await fetchPage();
 
-  console.log(pageData);
-
-  if (!pageData) return null;
-  const { page } = pageData;
-  const { body, featuredArticle, latestArticle } = page;
+  if (!page) return null;
+  const { home } = page;
+  const { body, featuredArticle, latestArticle } = home;
   const { title, minuteRead, date, coverImage, slug, excerpt } =
     featuredArticle;
 
