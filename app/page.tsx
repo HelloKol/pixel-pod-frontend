@@ -90,7 +90,7 @@ export default async function Page() {
 
   return (
     <main>
-      <Section className="pt-0">
+      <Section className="pt-0 pb-0 md:pt-0 md:pb-0">
         <Link href={`/article/${slug.current}`} className="block">
           <Container className="flex min-h-screen">
             <Grid
@@ -120,7 +120,6 @@ export default async function Page() {
                   <h2 className="text-4xl md:text-6xl lg:text-7xl uppercase mt-2 break-all">
                     {title}
                   </h2>
-
                   <article className="font-light text-xl md:text-3xl pl-6 pt-2 md:absolute md:bottom-6">
                     <p>{excerpt}</p>
                   </article>

@@ -504,7 +504,7 @@ export default function SiteHeader() {
   return (
     <header className="text-black z-20 fixed top-0 left-0 right-0">
       <Container>
-        <nav className="py-6">
+        <nav className="py-4 md:py-6">
           <ul className="flex items-center justify-end relative w-full max-w-[inherit]">
             <li className="mr-auto">{siteLogo}</li>
             {renderNavigation()}

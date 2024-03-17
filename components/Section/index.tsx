@@ -1,9 +1,9 @@
-import React from "react"
+import React from "react";
 // Props
 interface Props {
-  children: React.ReactNode | React.ReactNode[]
-  className?: string
-  withPadding?: boolean
+  children: React.ReactNode | React.ReactNode[];
+  className?: string;
+  withPadding?: boolean;
 }
 
 export default function index({
@@ -13,9 +13,11 @@ export default function index({
 }: Props) {
   return (
     <section
-      className={`${withPadding ? `py-[120px]` : ``} ${className || ""}`}
+      className={`${withPadding ? `py-[120px] md:py-[140px]` : ``} ${
+        className || ""
+      }`}
     >
       {children}
     </section>
-  )
+  );
 }

@@ -1,11 +1,9 @@
-import Image from "next/image";
-import { Grid, Section, Container, ImageTag } from "@/components";
 import Link from "next/link";
-import { sanityClient } from "@/utils";
+import { Metadata } from "next/types";
 import groq from "groq";
-import { GetStaticPropsResult, Metadata } from "next/types";
-import { PortableText } from "@portabletext/react";
 import { format } from "date-fns";
+import { Grid, Section, Container, ImageTag } from "@/components";
+import { sanityClient } from "@/utils";
 
 export const metadata: Metadata = {
   title: "React App..",
@@ -15,8 +13,7 @@ export const metadata: Metadata = {
 async function fetchPage() {
   const articleIndex: any = await sanityClient.fetch(
     groq`*[_type == "postIndex" && !(_id in path('drafts.**'))][0] {
-      title,
-      body
+      title
     }
     `
   );
@@ -25,7 +22,14 @@ async function fetchPage() {
     groq`*[_type == "post" && !(_id in path('drafts.**'))] {
             ...,
             author -> {
-              ...
+              ...,
+              picture {
+                _type,
+                asset->{
+                  _id,
+                  url
+                }
+              },
             },
             coverImage {
               _type,
@@ -46,51 +50,36 @@ export default async function Page() {
 
   if (!page) return null;
   const { articleIndex, article } = page;
-  const { title, body } = articleIndex;
+  const { title } = articleIndex;
 
   const renderBlog = () => {
     return (
       article &&
       article.map((item: any) => {
         const { _id, title, excerpt, date, coverImage, slug, author } = item;
+        const { picture } = author;
 
         return (
           <Link
             key={_id}
             href={`/article/${slug.current}`}
-            className="col-span-full sm:col-span-6 md:col-span-6 lg:col-span-4 xl:col-span-3 mb-6"
+            className="col-span-full sm:col-span-6 md:col-span-6 lg:col-span-4 mb-6"
           >
-            <div className="h-80">
+            <div className="h-80 lg:h-96">
               <ImageTag src={coverImage.asset.url} />
             </div>
 
-            <h2 className="text-3xl uppercase">{title}</h2>
-
-            <article className="text-xl mt-2">
-              <p>{excerpt}</p>
-            </article>
-
-            <div className="mt-14 flex justify-between items-center relative pb-6">
-              <div className="flex items-center">
-                <svg
-                  className="w-6 h-6 text-gray-800"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M12 20a8 8 0 0 1-5-1.8v-.6c0-1.8 1.5-3.3 3.3-3.3h3.4c1.8 0 3.3 1.5 3.3 3.3v.6a8 8 0 0 1-5 1.8ZM2 12a10 10 0 1 1 10 10A10 10 0 0 1 2 12Zm10-5a3.3 3.3 0 0 0-3.3 3.3c0 1.7 1.5 3.2 3.3 3.2 1.8 0 3.3-1.5 3.3-3.3C15.3 8.6 13.8 7 12 7Z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
+            <div className="mt-4 flex justify-between items-center relative">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full overflow-hidden">
+                  <ImageTag src={picture.asset.url} />
+                </div>
                 {author.name}
               </div>
 
-              <div className="flex items-center">
+              <div className="flex items-center gap-2">
                 <svg
-                  className="w-6 h-6 text-gray-800"
+                  className="w-8 h-8 text-gray-800"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -105,6 +94,12 @@ export default async function Page() {
                 <p>{format(date, "d MMMM yyyy")}</p>
               </div>
             </div>
+
+            <h2 className="text-4xl lg:text-5xl mt-4">{title}</h2>
+
+            <article className="font-light text-xl mt-4">
+              <p>{excerpt}</p>
+            </article>
           </Link>
         );
       })
@@ -116,7 +111,7 @@ export default async function Page() {
       <Section>
         <Container>
           <Grid>
-            <h1 className="col-span-full text-7xl xl:text-9xl text-center mb-24">
+            <h1 className="col-span-full text-7xl md:text-8xl xl:text-9xl text-center mb-16 md:mb-24">
               {title}
             </h1>
             {renderBlog()}
