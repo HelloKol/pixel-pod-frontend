@@ -1,5 +1,4 @@
 "use client";
-
 import { usePathname } from "next/navigation";
 import {
   FacebookShareButton,
@@ -10,8 +9,7 @@ import {
 
 export default function SocialShare({ seoPage }: any) {
   const pathname = usePathname();
-  const path = `https://pixel-pod-frontend.vercel.app` + pathname;
-  console.log("path", path);
+  const path = process.env.NEXT_PUBLIC_BASE_URL + pathname;
 
   return (
     <>
@@ -43,7 +41,7 @@ export default function SocialShare({ seoPage }: any) {
 
       <div>
         <EmailShareButton
-          url={"https://github.com/next-share"}
+          url={path}
           subject={"Share article"}
           body="Article url: "
         >
@@ -66,7 +64,7 @@ export default function SocialShare({ seoPage }: any) {
       </div>
 
       <div>
-        <FacebookShareButton url={path} hashtag={seoPage?.keywords}>
+        <FacebookShareButton url={path} hashtag={seoPage?.tags}>
           <svg
             fill="#000000"
             className="h-8 w-8"
@@ -88,7 +86,7 @@ export default function SocialShare({ seoPage }: any) {
         <TwitterShareButton
           url={path}
           title={seoPage?.title}
-          hashtags={seoPage?.keywords.split(",")}
+          hashtags={seoPage?.tags.split(",")}
         >
           <svg
             fill="#000000"

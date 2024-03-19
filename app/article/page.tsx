@@ -1,46 +1,29 @@
+export const revalidate = 30;
 import Link from "next/link";
-import { Metadata } from "next/types";
-import groq from "groq";
+import { ResolvingMetadata } from "next";
 import { format } from "date-fns";
-import { Grid, Section, Container, ImageTag } from "@/components";
-import { sanityClient } from "@/utils";
+// Components
+import { Grid, Section, Container, ImageTag, Seo } from "@/components";
+// Utils/Lib
+import { sanityClient, generateMetaTags } from "@/utils";
+// Services/Types
+import { ARTICLE_INDEX_QUERY, ARTICLE_QUERY } from "@/services/queries";
+import { IArticle, IArticleIndex } from "@/types";
 
-export const metadata: Metadata = {
-  title: "React App..",
-  description: "Web site created with Next.js.",
-};
+export async function generateMetadata({}: {}, parent: ResolvingMetadata) {
+  const articleIndex: IArticleIndex = await sanityClient.fetch(
+    ARTICLE_INDEX_QUERY
+  );
+  const previousImages = (await parent)?.openGraph?.images ?? [];
+
+  return generateMetaTags(articleIndex, previousImages);
+}
 
 async function fetchPage() {
-  const articleIndex: any = await sanityClient.fetch(
-    groq`*[_type == "postIndex" && !(_id in path('drafts.**'))][0] {
-      title
-    }
-    `
+  const articleIndex: IArticleIndex = await sanityClient.fetch(
+    ARTICLE_INDEX_QUERY
   );
-
-  const article: any = await sanityClient.fetch(
-    groq`*[_type == "post" && !(_id in path('drafts.**'))] {
-            ...,
-            author -> {
-              ...,
-              picture {
-                _type,
-                asset->{
-                  _id,
-                  url
-                }
-              },
-            },
-            coverImage {
-              _type,
-              asset -> {
-                _id,
-                url
-              }
-            },
-          }
-        `
-  );
+  const article: IArticle[] = await sanityClient.fetch(ARTICLE_QUERY);
 
   return { articleIndex, article };
 }
@@ -55,15 +38,15 @@ export default async function Page() {
   const renderBlog = () => {
     return (
       article &&
-      article.map((item: any) => {
+      article.map((item) => {
         const { _id, title, excerpt, date, coverImage, slug, author } = item;
         const { picture } = author;
 
         return (
           <Link
             key={_id}
-            href={`/article/${slug.current}`}
-            className="col-span-full sm:col-span-6 md:col-span-6 lg:col-span-4 mb-6"
+            href={`/article/${slug}`}
+            className="col-span-full sm:col-span-6 md:col-span-6 lg:col-span-4 mb-6 md:mb-10 xl:mb-16"
           >
             <div className="h-80 lg:h-96">
               <ImageTag src={coverImage.asset.url} />

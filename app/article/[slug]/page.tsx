@@ -1,4 +1,9 @@
-import { Metadata, ResolvingMetadata } from "next";
+export const revalidate = 30;
+import { ResolvingMetadata } from "next";
+import groq from "groq";
+import { format } from "date-fns";
+import { PortableText } from "@portabletext/react";
+// Components
 import {
   CopyLink,
   Grid,
@@ -7,125 +12,49 @@ import {
   ImageTag,
   BreadCrumb,
   SocialShare,
+  Seo,
 } from "@/components";
-// import { useState } from "react";
-import { GetStaticPaths, GetStaticProps } from "next/types";
-import { sanityClient } from "@/utils";
-import groq from "groq";
-import { format } from "date-fns";
-import { PortableText } from "@portabletext/react";
+// Utils/Lib
+import { generateMetaTags, sanityClient } from "@/utils";
+// Services/Types
+import { ARTICLE_SHOW_QUERY } from "@/services/queries";
+import { IArticle } from "@/types";
 
 export async function generateMetadata(
   {
     params,
-    searchParams,
   }: {
     params: { slug: string };
-    searchParams: URLSearchParams;
   },
   parent: ResolvingMetadata
 ) {
   const { slug } = params;
-
-  const article = await sanityClient.fetch(
-    groq`*[_type == "post" && slug.current == $slug && !(_id in path('drafts.**'))][0]{
-      ...,
-      coverImage {
-        _type,
-        asset -> {
-          _id,
-          url
-        }
-      },
-      author -> {
-        ...,
-        picture {
-          _type,
-          asset->{
-            _id,
-            url
-          }
-        },
-      },
-      seoPage {
-        ...,
-        image {
-          _type,
-          asset -> {
-            _id,
-            url
-          }
-        },
-      }
-    }`,
-    { slug }
-  );
-
+  const article: IArticle = await sanityClient.fetch(ARTICLE_SHOW_QUERY, {
+    slug,
+  });
   const previousImages = (await parent)?.openGraph?.images ?? [];
 
-  return {
-    title: article.title,
-    description: article.description,
-    authors: {
-      name: article.author.name,
-    },
-    openGraph: {
-      images: [
-        ...previousImages,
-        {
-          url: article.coverImage.asset.url,
-        },
-      ],
-    },
-  };
+  return generateMetaTags(article, previousImages);
 }
 
 export async function generateStaticParams() {
-  const articles = await sanityClient.fetch(
-    groq`*[_type == "post" && !(_id in path('drafts.**'))]{slug}`
+  const articles: IArticle[] = await sanityClient.fetch(
+    groq`*[_type == "post" && !(_id in path('drafts.**'))]{
+      "slug": slug.current
+    }`
   );
 
-  const paths = articles.map((article: any) => ({
-    params: { slug: article.slug.current },
+  const paths = articles.map((article) => ({
+    params: { slug: article.slug },
   }));
 
   return paths;
 }
 
 async function fetchPosts(slug: string) {
-  const article = await sanityClient.fetch(
-    groq`*[_type == "post" && slug.current == $slug && !(_id in path('drafts.**'))][0]{
-      ...,
-      coverImage {
-        _type,
-        asset -> {
-          _id,
-          url
-        }
-      },
-      author -> {
-        ...,
-        picture {
-          _type,
-          asset->{
-            _id,
-            url
-          }
-        },
-      },
-      seoPage {
-        ...,
-        image {
-          _type,
-          asset -> {
-            _id,
-            url
-          }
-        },
-      }
-    }`,
-    { slug }
-  );
+  const article: IArticle = await sanityClient.fetch(ARTICLE_SHOW_QUERY, {
+    slug,
+  });
 
   return article;
 }
@@ -146,6 +75,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
     seoPage,
   } = page;
   const { name, picture } = author;
+
+  console.log(seoPage);
 
   return (
     <main>
@@ -180,7 +111,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
             <div className="mt-4 items-center gap-2 justify-end flex col-span-full">
               <CopyLink slug={slug} />
-              <SocialShare seo={seoPage} />
+              <SocialShare seoPage={seoPage} />
             </div>
 
             <article className="text-xl mt-4 col-start-2 col-end-12 lg:col-start-4 lg:col-end-10">

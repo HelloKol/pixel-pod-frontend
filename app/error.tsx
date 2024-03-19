@@ -1,30 +1,11 @@
 "use client";
 import Link from "next/link";
-import { Container, Grid, Section, Seo } from "@/components";
-import { sanityClient } from "@/utils";
-import { GetStaticPropsResult } from "next/types";
-import groq from "groq";
-import { useEffect } from "react";
+// Components
+import { Container, Grid, Section } from "@/components";
 
-interface props {
-  page: any;
-}
-
-export default function Error({
-  error,
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
-
+export default function Page(): JSX.Element | null {
   return (
     <>
-      {/* <Seo seo={""} /> */}
-
       <main>
         <Section withPadding={false} className="pt-[350px] min-h-screen">
           <Container>
@@ -83,71 +64,4 @@ export default function Error({
       </main>
     </>
   );
-}
-
-export async function getStaticProps(): Promise<GetStaticPropsResult<props>> {
-  try {
-    const page: any = await sanityClient.fetch(
-      groq`*[_type == "home" && !(_id in path('drafts.**'))][0] {
-        ...,
-        featuredArticle -> {
-          ...,
-          author -> {
-            ...,
-            picture {
-              _type,
-              asset->{
-                _id,
-                url
-              }
-            },
-          },
-          coverImage {
-            _type,
-            asset -> {
-              _id,
-              url
-            }
-          },
-        },
-        latestArticle [] -> {
-          ...,
-          author -> {
-            ...,
-            picture {
-              _type,
-              asset->{
-                _id,
-                url
-              }
-            },
-          },
-          coverImage {
-            _type,
-            asset -> {
-              _id,
-              url
-            }
-          },
-        }
-      }
-    `
-    );
-
-    if (!page)
-      return {
-        notFound: true,
-      };
-
-    return {
-      props: {
-        page,
-      },
-      revalidate: 30,
-    };
-  } catch (err) {
-    return {
-      notFound: true,
-    };
-  }
 }

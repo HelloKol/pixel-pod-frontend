@@ -33,10 +33,10 @@ export default function SiteFooter() {
   };
 
   return (
-    <footer className="bg-[#131313] z-20 py-5 text-white">
+    <footer className="bg-[#131313] z-20 py-6 text-white">
       <Container>
-        <nav className="flex items-center justify-between">
-          <p>{credit}</p>
+        <nav className="sm:flex items-center justify-between">
+          <p className="mb-4 sm:mb-0">{credit}</p>
           <ul className="flex items-center gap-4">{renderNavigation()}</ul>
         </nav>
       </Container>

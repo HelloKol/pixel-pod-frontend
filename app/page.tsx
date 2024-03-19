@@ -1,56 +1,24 @@
+export const revalidate = 30;
 import Link from "next/link";
-import { Container, Grid, ImageTag, Section } from "@/components";
-import { sanityClient } from "@/utils";
-import groq from "groq";
 import { format } from "date-fns";
+// Components
+import { Container, Grid, ImageTag, Section } from "@/components";
+// Utils/Lib
+import { sanityClient, generateMetaTags } from "@/utils";
+// Services/Types
+import { HOME_QUERY } from "@/services/queries";
+import { IHome } from "@/types";
+import { ResolvingMetadata } from "next";
+
+export async function generateMetadata({}: {}, parent: ResolvingMetadata) {
+  const home: IHome = await sanityClient.fetch(HOME_QUERY);
+  const previousImages = (await parent)?.openGraph?.images ?? [];
+
+  return generateMetaTags(home, previousImages);
+}
 
 async function fetchPage() {
-  const home: any = await sanityClient.fetch(
-    groq`*[_type == "home" && !(_id in path('drafts.**'))][0] {
-            ...,
-            featuredArticle -> {
-              ...,
-              author -> {
-                ...,
-                picture {
-                  _type,
-                  asset->{
-                    _id,
-                    url
-                  }
-                },
-              },
-              coverImage {
-                _type,
-                asset -> {
-                  _id,
-                  url
-                }
-              },
-            },
-            latestArticle [] -> {
-              ...,
-              author -> {
-                ...,
-                picture {
-                  _type,
-                  asset->{
-                    _id,
-                    url
-                  }
-                },
-              },
-              coverImage {
-                _type,
-                asset -> {
-                  _id,
-                  url
-                }
-              },
-            }
-          }
-        `
-  );
+  const home: IHome = await sanityClient.fetch(HOME_QUERY);
 
   return { home };
 }
@@ -60,19 +28,18 @@ export default async function Page() {
 
   if (!page) return null;
   const { home } = page;
-  const { body, featuredArticle, latestArticle } = home;
-  const { title, minuteRead, date, coverImage, slug, excerpt } =
-    featuredArticle;
+  const { featuredArticle, latestArticle } = home;
+  const { title, minuteRead, coverImage, slug, excerpt } = featuredArticle;
 
   const renderBlog = () =>
     latestArticle &&
-    latestArticle.map((article: any) => {
+    latestArticle.map((article) => {
       const { _id, title, minuteRead, date, coverImage, slug } = article;
 
       return (
         <Link
           key={_id}
-          href={`/article/${slug.current}`}
+          href={`/article/${slug}`}
           className="block blog-item col-span-full sm:col-span-6 xl:col-span-4 bg-white text-black mb-6"
         >
           <div className="blog-item-image h-[400px] rounded-lg overflow-hidden">
@@ -91,7 +58,7 @@ export default async function Page() {
   return (
     <main>
       <Section className="pt-0 pb-0 md:pt-0 md:pb-0">
-        <Link href={`/article/${slug.current}`} className="block">
+        <Link href={`/article/${slug}`} className="block">
           <Container className="flex min-h-screen">
             <Grid
               withColumnGap={false}
@@ -100,7 +67,7 @@ export default async function Page() {
             >
               <div className="left-side col-span-12 md:col-span-6 bg-[#D93101]">
                 <div className="flex items-center h-[75vh] md:h-full md:pr-6">
-                  <div className="m-auto h-[300px] lg:h-[500px] w-full lg:w-[500px] overflow-hidden">
+                  <div className="m-auto h-[350px] lg:h-[400px] xl:h-[450px] w-full max-w-[500px] lg:w-[500px] overflow-hidden">
                     <ImageTag src={coverImage.asset.url} />
                   </div>
                 </div>

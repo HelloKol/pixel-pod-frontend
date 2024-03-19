@@ -1,18 +1,11 @@
+"use client";
 import Link from "next/link";
-import { Container, Grid, Section, Seo } from "@/components";
-import { sanityClient } from "@/utils";
-import { GetStaticPropsResult } from "next/types";
-import groq from "groq";
+// Components
+import { Container, Grid, Section } from "@/components";
 
-interface props {
-  page: any;
-}
-
-export default function Page({}: props): JSX.Element | null {
+export default function Page(): JSX.Element | null {
   return (
     <>
-      {/* <Seo seo={""} /> */}
-
       <main>
         <Section withPadding={false} className="pt-[350px] min-h-screen">
           <Container>
