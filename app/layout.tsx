@@ -1,7 +1,6 @@
 import "@/styles/globals.css";
 import { SiteHeader, SiteFooter, Seo } from "@/components";
 import { GoogleTagManager } from "@next/third-parties/google";
-import settings from "@/data/settings.json";
 
 export const metadata = {
   title: "Pixel Pod",
@@ -15,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Seo seo={settings.seoSettings} />
+      <Seo />
       <body>
         <SiteHeader />
         {children}

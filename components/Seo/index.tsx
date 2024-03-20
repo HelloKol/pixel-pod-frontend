@@ -1,5 +1,3 @@
-import { ISeo } from "@/types";
-
 const Seo = () => {
   return (
     <head>
