@@ -2,6 +2,7 @@ import groq from "groq";
 import { SEO } from "@/services/queries";
 
 const ARTICLE_SHOW_QUERY = groq`*[_type == "post" && slug.current == $slug && !(_id in path('drafts.**'))][0]{
+  _updatedAt,
   title,
   excerpt,
   body,

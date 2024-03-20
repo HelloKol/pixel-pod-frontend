@@ -2,6 +2,7 @@ import groq from "groq";
 import { SEO } from "@/services/queries";
 
 export const ARTICLE = `
+  _updatedAt,
   title,
   excerpt,
   body,

@@ -44,7 +44,9 @@ export const ARTICLE = `
 `;
 
 const HOME_QUERY = groq`*[_type == "home" && !(_id in path('drafts.**'))][0] {
-    featuredArticle -> {
+  _updatedAt,
+  title,
+  featuredArticle -> {
       ${ARTICLE}
     },
     latestArticle [] -> {
