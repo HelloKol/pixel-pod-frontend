@@ -19,7 +19,6 @@ export async function generateMetadata({}: {}, parent: ResolvingMetadata) {
 
 async function fetchPage() {
   const home: IHome = await sanityClient.fetch(HOME_QUERY);
-
   return { home };
 }
 
@@ -29,7 +28,9 @@ export default async function Page() {
   if (!page) return null;
   const { home } = page;
   const { featuredArticle, latestArticle } = home;
-  const { title, minuteRead, coverImage, slug, excerpt } = featuredArticle;
+  const { title, minuteRead, coverImage, slug, excerpt, author, date } =
+    featuredArticle;
+  const formattedDate = format(date, "do MMMM yyyy");
 
   const renderBlog = () =>
     latestArticle &&
@@ -57,44 +58,70 @@ export default async function Page() {
 
   return (
     <main>
-      <Section className="pt-0 pb-0 md:pt-0 md:pb-0">
-        <Link href={`/article/${slug}`} className="block">
-          <Container className="flex min-h-screen">
-            <Grid
-              withColumnGap={false}
-              withRowGap={false}
-              className="md:w-screen"
-            >
-              <div className="left-side col-span-12 md:col-span-6 bg-[#D93101]">
-                <div className="flex items-center h-[75vh] md:h-full md:pr-6">
-                  <div className="m-auto h-[350px] lg:h-[400px] xl:h-[450px] w-full max-w-[500px] lg:w-[500px] overflow-hidden">
-                    <ImageTag src={coverImage.asset.url} />
-                  </div>
-                </div>
+      <Section className="pt-0 pb-0 md:pt-0 md:pb-0 mt-[128px]">
+        <Container>
+          <Grid>
+            <div className="col-span-12 md:col-start-1 md:col-end-8 bg-darkBlack rounded-large text-white p-7 md:min-h-[460px] relative">
+              <div className="flex items-center gap-2 text-xl mt-2">
+                <p className="text-sm capitalize font-semibold">
+                  Featured Article
+                </p>
+                <div className="h-[5px] w-[5px] bg-white rounded-full" />
+                <p className="text-sm capitalize font-semibold">
+                  {minuteRead} mins read
+                </p>
               </div>
 
-              <div className="right-side col-span-12 md:col-span-6 bg-[#DD6044]">
-                <div className="flex flex-col justify-center h-full py-4 md:py-0 md:pl-6 md:pb-6 relative">
-                  <div className="flex items-center gap-2 text-xl mt-2">
-                    <p className="text-sm uppercase font-semibold">
-                      Featured Article
-                    </p>
-                    <div className="h-[5px] w-[5px] bg-black rounded-full" />
-                    <p className="text-sm uppercase font-semibold">
-                      {minuteRead} mins read
-                    </p>
-                  </div>
-                  <h2 className="text-4xl md:text-6xl lg:text-7xl uppercase mt-2 break-all">
-                    {title}
-                  </h2>
-                  <article className="font-light text-xl md:text-3xl pl-6 pt-2 md:absolute md:bottom-6">
-                    <p>{excerpt}</p>
-                  </article>
-                </div>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl capitalize mt-2 break-all">
+                {title}
+              </h1>
+
+              <div className="flex items-center justify-between absolute left-7 bottom-7 right-7 text-darkRed">
+                <p>{author.name}</p>
+                <p>{formattedDate}</p>
               </div>
-            </Grid>
-          </Container>
-        </Link>
+            </div>
+
+            <div className="col-span-12 md:col-start-1 md:col-end-5 bg-darkBlack rounded-large p-7">
+              <article className="font-light text-white text-xl">
+                <p>{excerpt}</p>
+              </article>
+            </div>
+
+            <Link
+              href={`/article/${slug}`}
+              className="block group col-span-12 md:col-start-5 md:col-end-8 rounded-large p-7 text-white bg-darkRed"
+            >
+              <div className="flex flex-col justify-between h-full">
+                <div className="ml-auto bg-white p-4 rounded-full rotate-45 group-hover:translate-x-6 group-hover:-translate-y-6 transition ease-out">
+                  <svg
+                    className="group-hover:w-7 group-hover:h-7 w-10 h-10 text-darkBlack"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 6v13m0-13 4 4m-4-4-4 4"
+                    />
+                  </svg>
+                </div>
+
+                <p className="text-3xl">Read Article</p>
+              </div>
+            </Link>
+
+            <div className="md:row-start-1 md:row-end-3	col-span-12 md:col-start-8 md:col-end-13 h-[350px] lg:h-[400px] xl:h-[700px] w-full rounded-large overflow-hidden">
+              <ImageTag src={coverImage.asset.url} />
+            </div>
+          </Grid>
+        </Container>
       </Section>
 
       <Section>

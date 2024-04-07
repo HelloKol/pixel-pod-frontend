@@ -1,11 +1,11 @@
-import React from "react"
+import React from "react";
 
 interface Props {
-  children: React.ReactNode | React.ReactNode[]
-  className?: string
-  as?: keyof JSX.IntrinsicElements
-  withRowGap?: boolean
-  withColumnGap?: boolean
+  children: React.ReactNode | React.ReactNode[];
+  className?: string;
+  as?: keyof JSX.IntrinsicElements;
+  withRowGap?: boolean;
+  withColumnGap?: boolean;
 }
 
 export default function index({
@@ -15,15 +15,15 @@ export default function index({
   withRowGap = true,
   withColumnGap = true,
 }: Props) {
-  const Element = as
+  const Element = as;
 
   return (
     <Element
-      className={`grid grid-cols-12 ${withRowGap ? `gap-y-4` : ``} ${
-        withColumnGap ? `gap-x-4` : ``
+      className={`grid grid-cols-12 ${withRowGap ? `gap-y-7` : ``} ${
+        withColumnGap ? `gap-x-7` : ``
       } ${className || ""}`}
     >
       {children}
     </Element>
-  )
+  );
 }

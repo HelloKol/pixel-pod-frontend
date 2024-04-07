@@ -14,7 +14,11 @@ export default function SiteHeader() {
 
         return (
           <li key={_key}>
-            <Link key={_key} href={`/${content.slug}`} className="text-lg px-5">
+            <Link
+              key={_key}
+              href={`/${content.slug}`}
+              className="text-lg py-2.5 px-6 text-white border border-darkRed rounded-full"
+            >
               {title}
             </Link>
           </li>
@@ -502,10 +506,10 @@ export default function SiteHeader() {
   );
 
   return (
-    <header className="text-black z-20 fixed top-0 left-0 right-0">
+    <header className="text-black z-20 fixed top-7 left-0 right-0">
       <Container>
-        <nav className="py-4 md:py-6">
-          <ul className="flex items-center justify-end relative w-full max-w-[inherit]">
+        <nav className="p-4 md:px-8 bg-darkBlack rounded-full">
+          <ul className="flex items-center justify-end relative w-full max-w-[inherit] gap-6">
             <li className="mr-auto">{siteLogo}</li>
             {renderNavigation()}
           </ul>
