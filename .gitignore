@@ -35,8 +35,12 @@ build/Release
 /node_modules
 node_modules/
 jspm_packages/
+<<<<<<< HEAD
 apps/sanity/.sanity
 apps/sanity/dist
+=======
+
+>>>>>>> main-test
 
 # Optional npm cache directory
 .npm

@@ -9,11 +9,10 @@
 # testing
 /coverage
 
-# next.js
-/.next/
 /out/
 
-/data/settings.json
+.sanity
+dist
 
 # production
 /build
