@@ -1,5 +1,5 @@
 import groq from "groq";
-import { SEO } from "@/services/queries";
+import { AUTHOR_IMAGE, MAIN_IMAGE, SEO_PAGE } from "./common";
 
 const ARTICLE_SHOW_QUERY = groq`*[_type == "post" && slug.current == $slug && !(_id in path('drafts.**'))][0]{
   _updatedAt,
@@ -8,37 +8,12 @@ const ARTICLE_SHOW_QUERY = groq`*[_type == "post" && slug.current == $slug && !(
   body,
   minuteRead,
   date,
-  coverImage {
-    _type,
-    asset -> {
-      _id,
-      url
-    }
-  },
+  ${MAIN_IMAGE},
   author -> {
     name,
-    picture {
-      _type,
-      asset->{
-        _id,
-        "url": url + "?w=200&h=200" ,
-      }
-    },
+    ${AUTHOR_IMAGE}
   },
-  seoPage {
-    _type,
-    description,
-    keywords,
-    tags,
-    title,
-    image {
-      _type,
-      asset -> {
-        _id,
-        url
-      }
-    },
-  }
+  ${SEO_PAGE}
 }`;
 
 export default ARTICLE_SHOW_QUERY;

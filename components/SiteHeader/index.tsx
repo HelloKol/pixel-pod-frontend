@@ -1,23 +1,30 @@
 "use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Container } from "@/components";
+import { cn } from "@/utils";
 import settings from "../../data/settings.json";
 
 export default function SiteHeader() {
   const { headerNavigation } = settings;
+  const pathname = usePathname();
 
   const renderNavigation = () => {
     return (
       headerNavigation &&
       headerNavigation.map((navigation) => {
         const { _key, title, content } = navigation;
+        const isActive = content.slug === pathname;
 
         return (
           <li key={_key}>
             <Link
               key={_key}
-              href={`/${content.slug}`}
-              className="text-lg py-2.5 px-6 text-white border border-darkRed rounded-full"
+              href={content.slug}
+              className={cn(
+                "text-sm md:text-lg py-2.5 px-6 text-white border border-darkRed rounded-full hover:bg-darkRed transition-all ease-in-out duration-300",
+                isActive && "bg-darkRed"
+              )}
             >
               {title}
             </Link>
@@ -35,6 +42,7 @@ export default function SiteHeader() {
         xmlnsXlink="http://www.w3.org/1999/xlink"
         width="120"
         height="40"
+        className="md:w-[120px] md:h-[40px] w-[100px] h-[20px]"
         viewBox="0 0 2000 297"
       >
         <g transform="matrix(1,0,0,1,-1.2121212121212466,-0.043667289891487826)">
@@ -506,9 +514,9 @@ export default function SiteHeader() {
   );
 
   return (
-    <header className="text-black z-20 fixed top-7 left-0 right-0">
+    <header className="text-black z-20 absolute top-7 left-0 right-0">
       <Container>
-        <nav className="p-4 md:px-8 bg-darkBlack rounded-full">
+        <nav className="px-4 py-6 md:px-8 bg-darkBlack rounded-full">
           <ul className="flex items-center justify-end relative w-full max-w-[inherit] gap-6">
             <li className="mr-auto">{siteLogo}</li>
             {renderNavigation()}

@@ -1,24 +1,11 @@
 import groq from "groq";
-import { SEO } from "@/services/queries";
+import { SEO_PAGE } from "./common";
 
 const ARTICLE_INDEX_QUERY = groq`*[_type == "postIndex" && !(_id in path('drafts.**'))][0] {
   _updatedAt,
   title,
   slug,
-  seoPage {
-    _type,
-    description,
-    keywords,
-    tags,
-    title,
-    image {
-      _type,
-      asset -> {
-        _id,
-        url
-      }
-    },
-  }
+  ${SEO_PAGE}
 }
 `;
 

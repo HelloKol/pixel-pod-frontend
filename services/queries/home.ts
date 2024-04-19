@@ -1,5 +1,5 @@
 import groq from "groq";
-import { SEO } from "@/services/queries";
+import { AUTHOR_IMAGE, MAIN_IMAGE, SEO_PAGE } from "./common";
 
 export const ARTICLE = `
   title,
@@ -10,37 +10,12 @@ export const ARTICLE = `
   title,
   dynamicRoute,
   "slug": slug.current,
-  coverImage {
-    _type,
-    asset -> {
-      _id,
-      url
-    }
-  },
+  ${MAIN_IMAGE},
   author -> {
     name,
-    picture {
-      _type,
-      asset->{
-        _id,
-        "url": url + "?w=200&h=200" ,
-      }
-    },
+    ${AUTHOR_IMAGE}
   },
-  seoPage {
-    _type,
-    description,
-    keywords,
-    tags,
-    title,
-    image {
-      _type,
-      asset -> {
-        _id,
-        url
-      }
-    },
-  }
+  ${SEO_PAGE}
 `;
 
 const HOME_QUERY = groq`*[_type == "home" && !(_id in path('drafts.**'))][0] {

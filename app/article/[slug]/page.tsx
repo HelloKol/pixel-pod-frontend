@@ -2,7 +2,6 @@ export const revalidate = 30;
 import { ResolvingMetadata } from "next";
 import groq from "groq";
 import { format } from "date-fns";
-import { PortableText } from "@portabletext/react";
 // Components
 import {
   CopyLink,
@@ -10,9 +9,8 @@ import {
   Section,
   Container,
   ImageTag,
-  BreadCrumb,
   SocialShare,
-  Seo,
+  Bodycopy,
 } from "@/components";
 // Utils/Lib
 import { generateMetaTags, sanityClient } from "@/utils";
@@ -76,18 +74,12 @@ export default async function Page({ params }: { params: { slug: string } }) {
   } = page;
   const { name, picture } = author;
 
-  console.log(seoPage);
-
   return (
     <main>
       <Section>
         <Container>
           <Grid>
-            <div className="col-span-full">
-              <BreadCrumb />
-            </div>
-
-            <h1 className="col-span-full md:col-start-2 md:col-end-13 text-4xl md:text-6xl lg:text-7xl mt-10 md:mt-14 uppercase">
+            <h1 className="col-span-full md:col-start-2 md:col-end-13 text-4xl md:text-6xl font-semibold mt-10 md:mt-14">
               {title}
             </h1>
 
@@ -105,7 +97,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
               </div>
             </div>
 
-            <div className="col-span-full mt-4 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[700px] xl:h-[750px] w-full">
+            <div className="col-span-full mt-4 h-[400px] sm:h-[450px] md:h-[500px] lg:h-[700px] xl:h-[750px] w-full rounded-3xl overflow-hidden">
               <ImageTag src={coverImage.asset.url} />
             </div>
 
@@ -114,13 +106,15 @@ export default async function Page({ params }: { params: { slug: string } }) {
               <SocialShare seoPage={seoPage} />
             </div>
 
-            <article className="text-xl mt-4 col-start-2 col-end-12 lg:col-start-4 lg:col-end-10">
+            <article className="text-3xl mt-4 col-start-2 col-end-12 lg:col-start-3 lg:col-end-11">
               <p>{excerpt}</p>
             </article>
 
-            <article className="text-xl mt-4 col-start-2 col-end-12 lg:col-start-4 lg:col-end-10">
-              <PortableText value={body} />
-            </article>
+            {body && (
+              <article className="col-start-2 col-end-12 lg:col-start-3 lg:col-end-11">
+                <Bodycopy value={body} />
+              </article>
+            )}
           </Grid>
         </Container>
       </Section>

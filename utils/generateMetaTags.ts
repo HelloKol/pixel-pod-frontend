@@ -9,10 +9,19 @@ const generateMetaTags = (metaData: any, previousImages: any) => {
       seoSettings.siteNamePosition === "after"
         ? `${seoPage.title} | ${seoSettings.siteName}`
         : `${seoSettings.siteName} | ${seoPage.title}`,
+    description: seoPage.description,
     keywords: seoPage.keywords?.split(","),
     authors: [{ name: metaData?.author?.name || "" }],
     creator: metaData?.author?.name || "",
     publisher: metaData?.author?.name || "",
+    images: [
+      ...previousImages,
+      {
+        url: seoPage.image.asset.url,
+      },
+    ],
+    locale: "en_GB",
+    type: "website",
     alternates: {
       canonical: "/",
       languages: {
@@ -46,6 +55,7 @@ const generateMetaTags = (metaData: any, previousImages: any) => {
           url: seoPage.image.asset.url,
         },
       ],
+      url: process.env.NEXT_PUBLIC_BASE_URL,
     },
 
     robots: {

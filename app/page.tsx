@@ -35,23 +35,50 @@ export default async function Page() {
   const renderBlog = () =>
     latestArticle &&
     latestArticle.map((article) => {
-      const { _id, title, minuteRead, date, coverImage, slug } = article;
+      const { _id, title, date, coverImage, slug, author } = article;
 
       return (
         <Link
           key={_id}
           href={`/article/${slug}`}
-          className="block blog-item col-span-full sm:col-span-6 xl:col-span-4 bg-white text-black mb-6"
+          className="block group relative col-span-full sm:col-span-6 xl:col-span-6 bg-white text-white mb-6 rounded-larger overflow-hidden"
         >
-          <div className="blog-item-image h-[400px] rounded-lg overflow-hidden">
+          <div className="h-[600px]">
             <ImageTag src={coverImage.asset.url} />
           </div>
-          <h2 className="text-4xl lg:text-5xl mt-4">{title}</h2>
-          <div className="flex items-center gap-2 text-xl mt-2">
-            <p className="text-md">{format(date, "d MMMM yyyy")}</p>
-            <div className="h-[5px] w-[5px] bg-white rounded-full" />
-            <p className="text-md">{minuteRead} mins read</p>
+
+          <div className="absolute top-7 left-7">
+            <p className="text-md py-1 px-4 w-fit backdrop-blur-md bg-black/50 mb-2 rounded-full text-center">
+              {author.name}
+            </p>
+            <p className="text-md py-1 px-4 backdrop-blur-md bg-black/50 mb-2 rounded-full text-center">
+              {format(date, "d MMMM yyyy")}
+            </p>
           </div>
+
+          <div className="absolute top-7 right-7 bg-white p-4 rounded-full rotate-45 group-hover:translate-x-4 group-hover:-translate-y-4 transition ease-out">
+            <svg
+              className="group-hover:w-8 group-hover:h-8 w-10 h-10 text-darkBlack"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6v13m0-13 4 4m-4-4-4 4"
+              />
+            </svg>
+          </div>
+
+          <h2 className="bg-white pt-[25px] pl-[75px] text-black absolute -bottom-14 rounded-larger -left-14 text-4xl h-[200px] w-[500px]">
+            {title}
+          </h2>
         </Link>
       );
     });
@@ -61,7 +88,7 @@ export default async function Page() {
       <Section className="pt-0 pb-0 md:pt-0 md:pb-0 mt-[128px]">
         <Container>
           <Grid>
-            <div className="col-span-12 md:col-start-1 md:col-end-8 bg-darkBlack rounded-large text-white p-7 md:min-h-[460px] relative">
+            <div className="col-span-12 md:col-start-1 md:col-end-8 bg-darkBlack rounded-large text-white px-7 pt-7 pb-20 md:pb-7 md:min-h-[460px] relative">
               <div className="flex items-center gap-2 text-xl mt-2">
                 <p className="text-sm capitalize font-semibold">
                   Featured Article
@@ -117,7 +144,7 @@ export default async function Page() {
               </div>
             </Link>
 
-            <div className="md:row-start-1 md:row-end-3	col-span-12 md:col-start-8 md:col-end-13 h-[350px] lg:h-[400px] xl:h-[700px] w-full rounded-large overflow-hidden">
+            <div className="md:row-start-1 md:row-end-3	col-span-12 md:col-start-8 md:col-end-13 h-[350px] md:h-full w-full rounded-large overflow-hidden">
               <ImageTag src={coverImage.asset.url} />
             </div>
           </Grid>

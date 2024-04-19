@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 const Toast = ({ toasts, removeToast }: any) => {
   return (
-    <div className="fixed z-50 top-24 left-1/2 transform -translate-x-1/2 w-[90%] w-[700px] lg:w-[800px]">
+    <div className="fixed z-50 top-8 left-1/2 transform -translate-x-1/2 w-[90%] lg:w-[800px]">
       {toasts.map((toast: any, index: any) => (
         <ToastMessage
           key={index}
