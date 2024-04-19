@@ -1,0 +1,41 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm run fetch-static-content && next dev",
+    "build": "npm run fetch-static-content && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "fetch-static-content": "rm -rf ./data && node ./lib/fetch-static-content.js"
+  },
+  "dependencies": {
+    "@next/third-parties": "^14.1.3",
+    "@portabletext/react": "^3.0.11",
+    "@sanity/client": "^6.15.3",
+    "clsx": "^2.1.0",
+    "date-fns": "^3.3.1",
+    "groq": "^3.32.0",
+    "next": "^14.1.3",
+    "next-seo": "^6.5.0",
+    "next-transpile-modules": "^10.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-share": "^5.1.0",
+    "react-share-kit": "^1.1.0",
+    "react-syntax-highlighter": "^15.5.0",
+    "tailwind-merge": "^2.2.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^8",
+    "eslint-config-next": "^14.1.3",
+    "postcss": "^8.4.35",
+    "postcss-import": "^16.0.1",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}
